@@ -7,19 +7,23 @@
 const util = require("util");
 
 const deprecateContext = util.deprecate(() => {},
-"Hook.context is deprecated and will be removed");
+	"Hook.context is deprecated and will be removed");
 
-const CALL_DELEGATE = function(...args) {
+const CALL_DELEGATE = function (...args) {
+	// 生成代码
 	this.call = this._createCall("sync");
 	console.log(this.call.toString())
+	// 执行代码
 	return this.call(...args);
 };
-const CALL_ASYNC_DELEGATE = function(...args) {
+const CALL_ASYNC_DELEGATE = function (...args) {
 	this.callAsync = this._createCall("async");
+	console.log(this.callAsync.toString())
 	return this.callAsync(...args);
 };
-const PROMISE_DELEGATE = function(...args) {
+const PROMISE_DELEGATE = function (...args) {
 	this.promise = this._createCall("promise");
+	console.log(this.promise.toString())
 	return this.promise(...args);
 };
 
@@ -37,6 +41,7 @@ class Hook {
 		this.promise = PROMISE_DELEGATE;
 		this._x = undefined;
 
+		// 将原型链上的方法复制到实例上
 		this.compile = this.compile;
 		this.tap = this.tap;
 		this.tapAsync = this.tapAsync;
@@ -77,8 +82,11 @@ class Hook {
 		if (typeof options.context !== "undefined") {
 			deprecateContext();
 		}
-		options = Object.assign({ type, fn }, options);
-		// 注册拦截器
+		options = Object.assign({
+			type,
+			fn
+		}, options);
+		// 利用拦截器的Register改造传入的插件对象options，如果Register(options)返回值为undefined则原来的对象不会被改造
 		options = this._runRegisterInterceptors(options);
 		// 插入钩子
 		this._insert(options);
@@ -89,7 +97,7 @@ class Hook {
 		this._tap("sync", options, fn);
 	}
 
-	// 同步异步tab
+	// 异步tab
 	tapAsync(options, fn) {
 		this._tap("async", options, fn);
 	}
@@ -113,7 +121,9 @@ class Hook {
 
 	withOptions(options) {
 		const mergeOptions = opt =>
-			Object.assign({}, options, typeof opt === "string" ? { name: opt } : opt);
+			Object.assign({}, options, typeof opt === "string" ? {
+				name: opt
+			} : opt);
 
 		return {
 			name: this.name,
@@ -148,10 +158,10 @@ class Hook {
 		this.callAsync = this._callAsync;
 		this.promise = this._promise;
 	}
-/**
- * @param item是一个包含插件名字，插件函数的对象
- * 该函数功能就是将传入的插件按照stage以及before进行排序，插入到插件队列
- */
+	/**
+	 * @param item是一个包含插件名字，插件函数的对象
+	 * 该函数功能就是将传入的插件按照stage以及before进行排序，插入到插件队列
+	 */
 	_insert(item) {
 		this._resetCompilation();
 		let before;
