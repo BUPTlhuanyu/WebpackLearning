@@ -77,7 +77,19 @@ class HookCodeFactory {
 		this.deinit();
 		return fn;
 	}
-
+/**
+ * 
+ * @param {*} instance 
+ * @param {*} options 在HOOK.js中实例方法_createCall传入的options
+	_createCall(type) {
+		return this.compile({
+			taps: this.taps,
+			interceptors: this.interceptors,
+			args: this._args,
+			type: type
+		});
+	}
+ */
 	setup(instance, options) {
 		instance._x = options.taps.map(t => t.fn);
 	}

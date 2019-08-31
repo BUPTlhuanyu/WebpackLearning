@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\Chapter\\step2\\dist\\boundle.js"
+            "program": "${workspaceFolder}\\tapable\\test\\sync.js"
         }
     ]
 }

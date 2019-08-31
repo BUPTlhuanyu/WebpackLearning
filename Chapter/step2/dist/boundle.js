@@ -100,7 +100,7 @@
 /******/ 				if (__webpack_require__.nc) {
 /******/ 					script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 				}
-/******/ 				script.src = jsonpScriptSrc(chunkId); //这里添加src只是加载了一些代码字符串，代码真正执行的时候，是添加到document上的时候。
+/******/ 				script.src = jsonpScriptSrc(chunkId);
 /******/
 /******/ 				// create error before stack unwound to get useful stacktrace later
 /******/ 				var error = new Error();
@@ -126,7 +126,7 @@
 /******/ 					onScriptComplete({ type: 'timeout', target: script });
 /******/ 				}, 120000);
 /******/ 				script.onerror = script.onload = onScriptComplete;
-/******/ 				document.head.appendChild(script);//这里开始执行代码
+/******/ 				document.head.appendChild(script);
 /******/ 			}
 /******/ 		}
 /******/ 		return Promise.all(promises);

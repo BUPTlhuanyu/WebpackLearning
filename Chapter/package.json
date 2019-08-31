@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "step1": "webpack --config ./step1/webpack.config.js",
     "step2": "webpack --config ./step2/webpack.config.js",
-    "step2-1": "webpack --config ./step2-1/webpack.config.js"
+    "step2-1": "webpack --config ./step2-1/webpack.config.js",
+    "step3": "node --inspect-brk ./node_modules/webpack/bin/webpack.js --config ./step3/webpack.config.js --inline --progress"
   },
   "author": "",
   "license": "ISC",
