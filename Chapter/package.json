@@ -11,7 +11,9 @@
     "loader": "webpack --config ./loader/webpack.config.js",
     "chunk": "webpack --config ./chunk/webpack.config.js",
     "chunk1": "webpack --config ./chunk1/webpack.config.js",
-    "chunk1-2": "webpack --config ./chunk1-2/webpack.config.js"
+    "chunk1-2": "webpack --config ./chunk1-2/webpack.config.js",
+    "chunk1-3": "webpack --config ./chunk1-3/webpack.config.js",
+    "chunk1-4": "webpack --config ./chunk1-4/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
