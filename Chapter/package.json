@@ -8,7 +8,10 @@
     "step1": "webpack --config ./step1/webpack.config.js",
     "step2": "webpack --config ./step2/webpack.config.js",
     "step2-1": "webpack --config ./step2-1/webpack.config.js",
-    "step3": "node --inspect-brk ./node_modules/webpack/bin/webpack.js --config ./step3/webpack.config.js --inline --progress"
+    "loader": "webpack --config ./loader/webpack.config.js",
+    "chunk": "webpack --config ./chunk/webpack.config.js",
+    "chunk1": "webpack --config ./chunk1/webpack.config.js",
+    "chunk1-2": "webpack --config ./chunk1-2/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
