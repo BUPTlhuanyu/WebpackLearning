@@ -13,7 +13,10 @@
     "chunk1": "webpack --config ./chunk1/webpack.config.js",
     "chunk1-2": "webpack --config ./chunk1-2/webpack.config.js",
     "chunk1-3": "webpack --config ./chunk1-3/webpack.config.js",
-    "chunk1-4": "webpack --config ./chunk1-4/webpack.config.js"
+    "chunk1-4": "webpack --config ./chunk1-4/webpack.config.js",
+    "plugin": "webpack --config ./plugin/webpack.config.js",
+    "sw": "http-server ./sw/dist",
+    "sw:build": "webpack --config ./sw/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
