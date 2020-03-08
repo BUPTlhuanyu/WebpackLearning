@@ -17,11 +17,16 @@
     "plugin": "webpack --config ./plugin/webpack.config.js",
     "sw": "http-server ./sw/dist",
     "sw:build": "webpack --config ./sw/webpack.config.js",
-    "modules": "webpack --config ./modules/webpack.config.js"
+    "modules": "webpack --config ./modules/webpack.config.js",
+    "img": "webpack --config ./img/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "file-loader": "^5.1.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "url-loader": "^3.0.0",
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.4"
   }
