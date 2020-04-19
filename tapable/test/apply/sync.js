@@ -1,4 +1,4 @@
-const Sync = require('../lib/SyncHook')
+const Sync = require('../../lib/SyncHook')
 
 class Lesson {
 	constructor() {

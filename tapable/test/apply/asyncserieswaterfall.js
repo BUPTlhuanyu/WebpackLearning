@@ -1,6 +1,6 @@
 // AsyncSeriesWaterfallHook为异步串行的执行关系，上一个监听函数的中的callback(err, data)的第二个参数,可以作为下一个监听函数的参数
 // 实现原理关键词： 闭包，回调，异步
-const AsyncSeriesWaterfallHook = require('../lib/AsyncSeriesWaterfallHook')
+const AsyncSeriesWaterfallHook = require('../../lib/AsyncSeriesWaterfallHook')
 let hook = new AsyncSeriesWaterfallHook(["name"]);
 
 hook.tapAsync("react", function (name, cb) {

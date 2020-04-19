@@ -1,4 +1,4 @@
-const AsyncParallelHook = require('../lib/AsyncParallelHook')
+const AsyncParallelHook = require('../../lib/AsyncParallelHook')
 // 所有异步插件都执行完成之后，执行call中得回调函数
 // 异步的钩子分为串行和并行
 // 串行：第一个异步执行完，才会执行第二个

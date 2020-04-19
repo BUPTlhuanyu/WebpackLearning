@@ -78,8 +78,8 @@ class HookCodeFactory {
 		return fn;
 	}
 /**
- * 
- * @param {*} instance 
+ * 将注册的所有插件的执行函数作为一个数组存储到hook上的_x属性
+ * @param {*} instance this会出现隐式绑定，tapable中，这里的instance一般都是new Hook()实例
  * @param {*} options 在HOOK.js中实例方法_createCall传入的options
 	_createCall(type) {
 		return this.compile({
@@ -115,10 +115,13 @@ class HookCodeFactory {
 			code += "var _context;\n";
 		}
 		code += "var _x = this._x;\n";
+		// 开始处理拦截器
 		if (this.options.interceptors.length > 0) {
+			// 获取插件以及拦截器
 			code += "var _taps = this.taps;\n";
 			code += "var _interceptors = this.interceptors;\n";
 		}
+		 // 遍历拦截器，如果拦截器函数有call函数，则调用对应的拦截的call方法并将函数传入的参数传入拦截器函数中
 		for (let i = 0; i < this.options.interceptors.length; i++) {
 			const interceptor = this.options.interceptors[i];
 			if (interceptor.call) {
@@ -135,29 +138,60 @@ class HookCodeFactory {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param {*} tapIndex 需要处理的tap在hook.taps中的index
+	 * @param {*} param1 
+	 */
 	callTap(tapIndex, { onError, onResult, onDone, rethrowIfPossible }) {
 		let code = "";
 		let hasTapCached = false;
+		// 拦截器
+		// tapIndex = 8
+		// var _taps = this.taps
+		// var _interceptors = this.interceptors; 
+		// var _tap8 = _taps[8]
+		// _interceptors[0].tap(_tap8) // 利用第一个拦截器改造插件
+		// _interceptors[1].tap(_tap8)
+		// _interceptors[2].tap(_tap8)
+		// _interceptors[3].tap(_tap8)
+		// _interceptors[4].tap(_tap8)
+		// _interceptors[5].tap(_tap8)
+		// _interceptors[6].tap(_tap8) // 利用最后一个拦截器改造插件
 		for (let i = 0; i < this.options.interceptors.length; i++) {
 			const interceptor = this.options.interceptors[i];
 			if (interceptor.tap) {
 				if (!hasTapCached) {
-					code += `var _tap${tapIndex} = ${this.getTap(tapIndex)};\n`;
+					code += `var _tap${tapIndex} = ${this.getTap(tapIndex)};\n`; // this.getTap(tapIndex) ===  `_taps[${tapIndex}]`
 					hasTapCached = true;
 				}
-				code += `${this.getInterceptor(i)}.tap(${
+				code += `${this.getInterceptor(i)}.tap(${ // this.getInterceptor(i) === `_interceptors[${i}]`
 					interceptor.context ? "_context, " : ""
 				}_tap${tapIndex});\n`;
 			}
 		}
-		code += `var _fn${tapIndex} = ${this.getTapFn(tapIndex)};\n`;
+		// 将tap插件对应的执行函数保存到_fn${tapIndex}
+		code += `var _fn${tapIndex} = ${this.getTapFn(tapIndex)};\n`; // this.getTapFn(tapIndex) === _x[${tapIndex}]
+		// 获取tap
 		const tap = this.options.taps[tapIndex];
 		switch (tap.type) {
 			case "sync":
+				// var _hasError8 = false;
+				// try{
+				// 	var _result8 = _fn8(_context, a, b)
+				// }catch(err){
+				// 	_hasError8 = true
+				// 	throw err // onError: err => `throw ${err};\n`
+				// }
+				// if(!_hasError8) {
+				// 	return _result8// onResult: result => `return ${result};\n`,
+				// }
+				// // onDone: () => ""
 				if (!rethrowIfPossible) {
 					code += `var _hasError${tapIndex} = false;\n`;
 					code += "try {\n";
 				}
+				//  构建插件函数的执行代码，onResult存在的时候插件函数的执行后的结果保存在_result${tapIndex}中
 				if (onResult) {
 					code += `var _result${tapIndex} = _fn${tapIndex}(${this.args({
 						before: tap.context ? "_context" : undefined
@@ -236,11 +270,15 @@ class HookCodeFactory {
 		doneReturns,
 		rethrowIfPossible
 	}) {
+		// 如果没有插件，直接返回onDone()执行的结果
 		if (this.options.taps.length === 0) return onDone();
+		// 找到第一个异步插件，type为promise或者async
 		const firstAsync = this.options.taps.findIndex(t => t.type !== "sync");
+		
 		const somethingReturns = resultReturns || doneReturns || false;
 		let code = "";
 		let current = onDone;
+		// 遍历插件开始构建函数体
 		for (let j = this.options.taps.length - 1; j >= 0; j--) {
 			const i = j;
 			const unroll = current !== onDone && this.options.taps[i].type !== "sync";

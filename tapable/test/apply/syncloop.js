@@ -2,7 +2,7 @@
 // 会依次执行插件，如果某个插件返回的结果不是undefined则从第一个插件开始依次循环执行，
 // 如果每一个插件的结果都是undefined则结束循环
 // 循环遍历插件队列相当于只有一条命的闯关游戏，一旦挂了（结果不是undefined），就得从头开始（从头开始循环执行插件）。
-const SyncLoopHook = require('../lib/SyncLoopHook')
+const SyncLoopHook = require('../../lib/SyncLoopHook')
 
 class Lesson {
 	constructor() {

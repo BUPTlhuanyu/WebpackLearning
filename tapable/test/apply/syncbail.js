@@ -1,4 +1,4 @@
-const syncbail = require('../lib/SyncBailHook')
+const syncbail = require('../../lib/SyncBailHook')
 
 class Lesson {
 	constructor() {

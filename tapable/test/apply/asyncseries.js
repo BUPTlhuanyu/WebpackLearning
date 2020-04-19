@@ -1,6 +1,6 @@
 // AsyncSeriesHook为异步串行的执行关系
 // 按照插件得注册顺序执行插件，只有在前一个插件执行完成之后，没有错误得情况下才会执行后一个插件
-const AsyncSeriesHook = require('../lib/AsyncSeriesHook')
+const AsyncSeriesHook = require('../../lib/AsyncSeriesHook')
 
 class Lesson {
 	constructor() {

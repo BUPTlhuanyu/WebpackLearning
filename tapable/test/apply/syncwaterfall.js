@@ -1,4 +1,4 @@
-const SyncWaterfallHook = require('../lib/SyncWaterfallHook')
+const SyncWaterfallHook = require('../../lib/SyncWaterfallHook')
 
 // waterfall 瀑布 上面会影响下面的
 

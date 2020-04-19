@@ -1,4 +1,4 @@
-let SyncHook = require('../lib/SyncHook.js')
+let SyncHook = require('../../lib/SyncHook.js')
 
 let h1 = new SyncHook(['options']);
 
