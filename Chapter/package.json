@@ -18,7 +18,8 @@
     "sw": "http-server ./sw/dist",
     "sw:build": "webpack --config ./sw/webpack.config.js",
     "modules": "webpack --config ./modules/webpack.config.js",
-    "img": "webpack --config ./img/webpack.config.js"
+    "img": "webpack --config ./img/webpack.config.js",
+    "di": "webpack --config ./dynamic-chunk/webpack.config.js --mode=development"
   },
   "author": "",
   "license": "ISC",
